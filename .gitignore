@@ -4,6 +4,5 @@ _ressourcen/
 
 # Cosign-Keys
 cosign.key
-cosign.pub
 *.key
 *.pem
