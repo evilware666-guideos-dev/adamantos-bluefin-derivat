@@ -1,0 +1,10 @@
+# Konfiguration für den ISO-Build
+[customizations]
+[customizations.installer]
+kernel = "kernel"
+[customizations.installer.kickstart]
+contents = """
+lang de_DE.UTF-8
+keyboard de
+timezone Europe/Berlin
+"""

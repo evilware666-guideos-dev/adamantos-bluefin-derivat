@@ -1,0 +1,101 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+name: adamantos
+description: AdamantOS – Ein unzerstörbares, wartungsfreies Bluefin-Derivat für den deutschen Markt.
+
+base-image: ghcr.io/ublue-os/bluefin
+image-version: latest
+
+modules:
+  # ─── RPM-Pakete (systemweit, immutable) ───
+  - type: rpm-ostree
+    install:
+      # Werkzeuge
+      - wget
+      - curl
+      - unzip
+      - rsync
+      - p7zip
+      - p7zip-plugins
+      # Treiber & Firmware
+      - dkms
+      - linux-firmware
+      - intel-microcode
+      - amd64-microcode
+      - tlp
+      - tlp-rdw
+      # Sprache & Tastatur
+      - langpacks-de
+      # Multimedia
+      - lame
+      - wavpack
+      - flac
+      - vorbis-tools
+      - ffmpeg
+      - kid3-cli
+      # System
+      - systemd-zram-generator
+      - preload
+      - timeshift
+      - hardinfo
+      # GNOME-Extras
+      - gnome-tweaks
+      - gnome-contacts
+      - gnome-maps
+      - gnome-weather
+      - nautilus-admin
+      - nautilus-share
+      - gnome-sushi
+      - ffmpegthumbnailer
+      - gtkhash
+      - nautilus-image-converter
+      # Nützliches
+      - showtime
+    remove:
+      # Überflüssige Spiele
+      - gnome-mines
+      - aisleriot
+      - gnome-mahjongg
+      - gnome-sudoku
+      # Überflüssige Apps
+      - totem
+      - remmina
+      - rhythmbox
+      - mpv
+
+  # ─── GNOME-Einstellungen (build-time) ───
+  - type: gschema-overrides
+    source: zz1-adamantos.gschema.override
+
+  # ─── Systemdateien aus files/system/ ───
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  # ─── Flatpaks (Runtime, sandboxed) ───
+  - type: default-flatpaks
+    notify: true
+    system:
+      repo-url: https://flathub.org/repo/flathub.flatpakrepo
+      install:
+        - de.haeckerfelix.Shortwave
+        - com.mattjakeman.ExtensionManager
+        - org.gtk.Gtk3theme.Adwaita-dark
+        - org.localsend.localsend_app
+        - com.bitwarden.desktop
+        - com.rustdesk.RustDesk
+        - org.gnome.Lollypop
+        - be.alexandervanhee.gradia
+        - net.codelogistics.webapps
+        - com.github.unrud.VideoDownloader
+        - com.valvesoftware.Steam
+        - com.heroicgameslauncher.hgl
+        - net.davidotek.pupgui2
+        - com.github.Matoking.protontricks
+        - io.github.Faugus.faugus-launcher
+        - com.benjamimgois.goverlay
+
+  # ─── Build-Skript für Dinge, die nicht deklarativ gehen ───
+  - type: script
+    scripts:
+      - post-install.sh

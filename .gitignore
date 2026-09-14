@@ -1,0 +1,9 @@
+
+# Ressourcen-Ordner (nicht ins Repo)
+_ressourcen/
+
+# Cosign-Keys
+cosign.key
+cosign.pub
+*.key
+*.pem
