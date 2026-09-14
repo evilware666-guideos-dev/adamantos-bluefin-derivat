@@ -34,9 +34,7 @@ modules:
       - kid3-cli
       # System
       - systemd-zram-generator
-      - preload
       - timeshift
-      - hardinfo
       # GNOME-Extras
       - gnome-tweaks
       - gnome-contacts
@@ -48,19 +46,6 @@ modules:
       - ffmpegthumbnailer
       - gtkhash
       - nautilus-image-converter
-      # Nützliches
-      - showtime
-    remove:
-      # Überflüssige Spiele
-      - gnome-mines
-      - aisleriot
-      - gnome-mahjongg
-      - gnome-sudoku
-      # Überflüssige Apps
-      - totem
-      - remmina
-      - rhythmbox
-      - mpv
 
   # ─── Systemdateien aus files/system/ ───
   - type: files
