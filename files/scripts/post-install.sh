@@ -3,6 +3,13 @@ set -oue pipefail
 
 echo ">>> AdamantOS Post-Install beginnt ..."
 
+# ─── GSchemas kompilieren (für GNOME-Einstellungen) ───
+echo ">>> Kompiliere GLib-Schemas ..."
+if [[ -d /usr/share/glib-2.0/schemas/ ]]; then
+    glib-compile-schemas /usr/share/glib-2.0/schemas/ || true
+    echo "   ✅ Schemas kompiliert."
+fi
+
 # ─── ImageMagick 'display' ausblenden ───
 echo ">>> Blende ImageMagick 'display' aus ..."
 IM_DESKTOPS=$(find /usr/share/applications -maxdepth 1 -type f \

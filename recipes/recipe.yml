@@ -62,10 +62,6 @@ modules:
       - rhythmbox
       - mpv
 
-  # ─── GNOME-Einstellungen (build-time) ───
-  - type: gschema-overrides
-    source: zz1-adamantos.gschema.override
-
   # ─── Systemdateien aus files/system/ ───
   - type: files
     files:
