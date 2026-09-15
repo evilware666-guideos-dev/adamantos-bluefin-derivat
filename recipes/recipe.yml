@@ -17,8 +17,6 @@ modules:
       - p7zip-plugins
       - dkms
       - linux-firmware
-      - intel-microcode
-      - amd64-microcode
       - tlp
       - tlp-rdw
       - langpacks-de
@@ -27,20 +25,16 @@ modules:
       - flac
       - vorbis-tools
       - ffmpeg
-      - kid3-cli
-      - systemd-zram-generator
+      - kid3
+      - zram-generator
       - timeshift
       - hardinfo2
       - gnome-tweaks
       - gnome-contacts
       - gnome-maps
       - gnome-weather
-      - nautilus-admin
-      - nautilus-share
-      - gnome-sushi
       - ffmpegthumbnailer
       - gtkhash
-      - nautilus-image-converter
 
   - type: files
     files:
