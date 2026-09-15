@@ -1,0 +1,44 @@
+name: Build AdamantOS ISO
+
+on:
+  workflow_dispatch: # Erlaubt manuelles Starten über die GitHub-Oberfläche
+  schedule:
+    - cron: '0 4 * * 0' # Optional: Wöchentlicher Build am Sonntag um 4:00 Uhr
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write # Wichtig für die Signierung der ISO
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Diese Action ist der Kern. Sie nimmt unser fertiges Container-Image
+      # und baut daraus eine bootfähige ISO-Datei.
+      - name: Build ISO
+        uses: jasonn3/build-container-installer@main
+        id: build
+        with:
+          # Hier wird der Pfad zu unserem bereits gebauten Image angegeben.
+          # Wichtig: Der Name muss dem entsprechen, was wir in der recipe.yml
+          # und im build.yml Workflow verwendet haben.
+          image-name: 'ghcr.io/evilware666-guideos-dev/adamantos:latest'
+          
+          # Der Name der ISO-Datei, die am Ende herauskommt.
+          iso-name: 'adamantos-latest.iso'
+          
+          # Optional: Um die ISO später wiederzufinden, geben wir Version mit an.
+          version: 'latest'
+
+      # Dieser Schritt lädt die fertige ISO als "Artifact" in den GitHub Actions Run hoch.
+      # Dort kannst du sie dann herunterladen.
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: adamantos-iso
+          path: ${{ steps.build.outputs.iso-path }}
+          if-no-files-found: error
