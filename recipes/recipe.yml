@@ -39,7 +39,7 @@ modules:
       - source: system
         destination: /
 
-  - type: default-flatpaks
+  - type: default-flatpaks@v1
     notify: true
     system:
       repo-url: https://flathub.org/repo/flathub.flatpakrepo
