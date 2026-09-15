@@ -1,4 +1,5 @@
-yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: adamantos
 description: AdamantOS – Ein unzerstörbares, wartungsfreies Bluefin-Derivat für den deutschen Markt.
 
