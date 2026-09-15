@@ -1,9 +1,9 @@
 name: Build AdamantOS ISO
 
 on:
-  workflow_dispatch: # Erlaubt manuelles Starten über die GitHub-Oberfläche
+  workflow_dispatch:
   schedule:
-    - cron: '0 4 * * 0' # Optional: Wöchentlicher Build am Sonntag um 4:00 Uhr
+    - cron: '0 4 * * 0'
 
 jobs:
   build-iso:
@@ -11,34 +11,30 @@ jobs:
     permissions:
       contents: read
       packages: write
-      id-token: write # Wichtig für die Signierung der ISO
+      id-token: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Diese Action ist der Kern. Sie nimmt unser fertiges Container-Image
-      # und baut daraus eine bootfähige ISO-Datei.
       - name: Build ISO
         uses: jasonn3/build-container-installer@main
         id: build
         with:
-          # Hier wird der Pfad zu unserem bereits gebauten Image angegeben.
-          # Wichtig: Der Name muss dem entsprechen, was wir in der recipe.yml
-          # und im build.yml Workflow verwendet haben.
-          image-name: 'ghcr.io/evilware666-guideos-dev/adamantos:latest'
-          
-          # Der Name der ISO-Datei, die am Ende herauskommt.
+          image-name: 'adamantos'
+          image-repo: 'ghcr.io/evilware666-guideos-dev'
+          image-tag: 'latest'
+          version: '43' # <-- WICHTIG: Die Fedora-Version deines Basis-Images
+          variant: 'Silverblue'
           iso-name: 'adamantos-latest.iso'
-          
-          # Optional: Um die ISO später wiederzufinden, geben wir Version mit an.
-          version: 'latest'
 
-      # Dieser Schritt lädt die fertige ISO als "Artifact" in den GitHub Actions Run hoch.
-      # Dort kannst du sie dann herunterladen.
       - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:
-          name: adamantos-iso
-          path: ${{ steps.build.outputs.iso-path }}
+          name: ${{ steps.build.outputs.iso_name }}
+          path: |
+            ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}
+            ${{ steps.build.outputs.iso_path }}/${{ steps.build.outputs.iso_name }}-CHECKSUM
           if-no-files-found: error
+          retention-days: 0
+          compression-level: 0
