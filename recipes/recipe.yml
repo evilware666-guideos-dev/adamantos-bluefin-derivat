@@ -17,8 +17,6 @@ modules:
       - p7zip-plugins
       - dkms
       - linux-firmware
-      - tlp
-      - tlp-rdw
       - langpacks-de
       - lame
       - wavpack
